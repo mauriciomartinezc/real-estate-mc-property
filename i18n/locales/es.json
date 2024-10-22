@@ -1,0 +1,29 @@
+{
+  "SuccessCreated": {
+    "other": "Creado exitosamente"
+  },
+  "ErrorPayload": {
+    "other": "Cuerpo de la solicitud no válida"
+  },
+  "SuccessResponse": {
+    "other": "Respuesta de éxito"
+  },
+  "InvalidValueFor": {
+    "other": "Valor no válido para el campo"
+  },
+  "required": {
+    "other": "es requerido"
+  },
+  "CityId": {
+    "other": "Ciudad"
+  },
+  "CompanyId": {
+    "other": "Identificador de la empresa/compañía"
+  },
+  "UserId": {
+    "other": "Identificador del usuario"
+  },
+  "InvalidUuid": {
+    "other": "Uuid invalido"
+  }
+}

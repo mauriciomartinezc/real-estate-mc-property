@@ -1,0 +1,31 @@
+package services
+
+import (
+	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+type ManagementTypeService struct {
+	Repo *repository.ManagementTypeRepository
+}
+
+func NewManagementTypeService(repo *repository.ManagementTypeRepository) *ManagementTypeService {
+	return &ManagementTypeService{Repo: repo}
+}
+
+func (s *ManagementTypeService) Create(managementType *domain.ManagementType) error {
+	return s.Repo.Create(managementType)
+}
+
+func (s *ManagementTypeService) GetByID(id primitive.ObjectID) (*domain.ManagementType, error) {
+	return s.Repo.GetByID(id)
+}
+
+func (s *ManagementTypeService) Update(managementType *domain.ManagementType) error {
+	return s.Repo.Update(managementType)
+}
+
+func (s *ManagementTypeService) Delete(id primitive.ObjectID) error {
+	return s.Repo.Delete(id)
+}

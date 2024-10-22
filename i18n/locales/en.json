@@ -1,0 +1,29 @@
+{
+  "SuccessCreated": {
+    "other": "Success created"
+  },
+  "ErrorPayload": {
+    "other": "Invalid request payload"
+  },
+  "SuccessResponse": {
+    "other": "Success response"
+  },
+  "InvalidValueFor": {
+    "other": "Invalid value for field"
+  },
+  "required": {
+    "other": "is required"
+  },
+  "CityId": {
+    "other": "City"
+  },
+  "CompanyId": {
+    "other": "Id's company"
+  },
+  "UserId": {
+    "other": "Id's user"
+  },
+  "InvalidUuid": {
+    "other": "Invalid uuid"
+  }
+}
