@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	configCommon "github.com/mauriciomartinezc/real-estate-mc-common/config"
-	handlerCommon "github.com/mauriciomartinezc/real-estate-mc-common/handler"
 	"github.com/mauriciomartinezc/real-estate-mc-common/middleware"
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
+	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
 	"github.com/mauriciomartinezc/real-estate-mc-property/utils"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -38,7 +38,7 @@ func run() error {
 
 	e := echo.New()
 	e.Use(middleware.LanguageHandler())
-	handlerCommon.InitValidate()
+	handler.InitValidate()
 
 	routes.SetupRoutes(e, db)
 

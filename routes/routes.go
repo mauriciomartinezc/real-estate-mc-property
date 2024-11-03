@@ -9,13 +9,15 @@ import (
 )
 
 func SetupRoutes(e *echo.Echo, db *mongo.Database) {
+	group := e.Group("api")
 	// Rutas para ManagementType
 	managementRepo := repository.NewManagementTypeRepository(db)
 	managementService := services.NewManagementTypeService(managementRepo)
-	managementController := handler.NewManagementTypeController(managementService)
+	managementHandler := handler.NewManagementTypeHandler(managementService)
 
-	e.POST("/managementTypes", managementController.CreateManagementType)
-	e.GET("/managementTypes/:id", managementController.GetManagementType)
-	e.PUT("/managementTypes/:id", managementController.UpdateManagementType)
-	e.DELETE("/managementTypes/:id", managementController.DeleteManagementType)
+	group.GET("/managementTypes", managementHandler.GetManagementTypes)
+	group.POST("/managementTypes", managementHandler.CreateManagementType)
+	group.GET("/managementTypes/:id", managementHandler.GetManagementType)
+	group.PUT("/managementTypes/:id", managementHandler.UpdateManagementType)
+	group.DELETE("/managementTypes/:id", managementHandler.DeleteManagementType)
 }

@@ -23,7 +23,10 @@
   "UserId": {
     "other": "Identificador del usuario"
   },
-  "InvalidUuid": {
-    "other": "Uuid invalido"
+  "InvalidId": {
+    "other": "ID invalido"
+  },
+  "Name": {
+    "other": "Nombre"
   }
 }

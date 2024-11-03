@@ -14,6 +14,10 @@ func NewManagementTypeService(repo *repository.ManagementTypeRepository) *Manage
 	return &ManagementTypeService{Repo: repo}
 }
 
+func (s *ManagementTypeService) GetAll() (managementTypes domain.ManagementTypes, err error) {
+	return s.Repo.GetAll()
+}
+
 func (s *ManagementTypeService) Create(managementType *domain.ManagementType) error {
 	return s.Repo.Create(managementType)
 }

@@ -18,6 +18,22 @@ func NewManagementTypeRepository(db *mongo.Database) *ManagementTypeRepository {
 	}
 }
 
+func (r *ManagementTypeRepository) GetAll() (domain.ManagementTypes, error) {
+	cursor, err := r.Collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(context.Background())
+
+	var managementTypes domain.ManagementTypes
+	if err = cursor.All(context.Background(), &managementTypes); err != nil {
+		return nil, err
+	}
+
+	return managementTypes, nil
+}
+
 func (r *ManagementTypeRepository) Create(managementType *domain.ManagementType) error {
 	managementType.ID = primitive.NewObjectID()
 	_, err := r.Collection.InsertOne(context.Background(), managementType)

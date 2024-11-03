@@ -1,3 +1,5 @@
 package locales
 
-const ()
+const (
+	InvalidId = "InvalidId"
+)

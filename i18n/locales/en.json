@@ -23,7 +23,10 @@
   "UserId": {
     "other": "Id's user"
   },
-  "InvalidUuid": {
-    "other": "Invalid uuid"
+  "InvalidId": {
+    "other": "Invalid id"
+  },
+  "Name": {
+    "other": "Name"
   }
 }
