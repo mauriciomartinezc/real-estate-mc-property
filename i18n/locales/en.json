@@ -31,5 +31,8 @@
   },
   "Order": {
     "other": "Order"
+  },
+  "FeatureTypeID": {
+    "other": "Id's feature type"
   }
 }

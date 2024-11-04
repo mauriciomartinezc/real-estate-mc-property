@@ -4,7 +4,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type FeatureType struct {
 	ID   primitive.ObjectID `bson:"_id,omitempty"`
-	Name string             `bson:"name"`
+	Name string             `bson:"name" validate:"required"`
 }
 
 type FeatureTypes = []FeatureType

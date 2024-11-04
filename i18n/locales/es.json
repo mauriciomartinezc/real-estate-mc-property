@@ -31,5 +31,8 @@
   },
   "Order": {
     "other": "Orden"
+  },
+  "FeatureTypeID": {
+    "other": "Identificador del tipo de la característica"
   }
 }
