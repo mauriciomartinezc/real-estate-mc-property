@@ -7,4 +7,5 @@ func Run(db *mongo.Database) {
 	AgeSeeder(db)
 	FeatureTypeSeeder(db)
 	FeatureSeeder(db)
+	PropertyTypeSeeder(db)
 }

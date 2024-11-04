@@ -14,6 +14,7 @@ func SetupRoutes(e *echo.Echo, db *mongo.Database) {
 	age(g, db)
 	featureType(g, db)
 	feature(g, db)
+	propertyType(g, db)
 }
 
 func managementType(g *echo.Group, db *mongo.Database) {
@@ -63,4 +64,16 @@ func feature(g *echo.Group, db *mongo.Database) {
 	//g.GET("/features/:id", featureHandler.GetAFeature)
 	//g.PUT("/features/:id", featureHandler.UpdateFeature)
 	//g.DELETE("/features/:id", featureHandler.DeleteFeature)
+}
+
+func propertyType(g *echo.Group, db *mongo.Database) {
+	repo := repository.NewPropertyTypeRepository(db)
+	service := services.NewPropertyTypeService(repo)
+	propertyTypeHandler := handler.NewPropertyTypeHandler(service)
+
+	g.GET("/propertyTypes", propertyTypeHandler.GetPropertyTypes)
+	//g.POST("/propertyTypes", propertyTypeHandler.CreatePropertyType)
+	//g.GET("/propertyTypes/:id", propertyTypeHandler.GetPropertyType)
+	//g.PUT("/propertyTypes/:id", propertyTypeHandler.UpdatePropertyType)
+	//g.DELETE("/propertyTypes/:id", propertyTypeHandler.DeletePropertyType)
 }
