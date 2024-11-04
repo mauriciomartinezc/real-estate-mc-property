@@ -9,15 +9,31 @@ import (
 )
 
 func SetupRoutes(e *echo.Echo, db *mongo.Database) {
-	group := e.Group("api")
-	// Rutas para ManagementType
-	managementRepo := repository.NewManagementTypeRepository(db)
-	managementService := services.NewManagementTypeService(managementRepo)
-	managementHandler := handler.NewManagementTypeHandler(managementService)
+	g := e.Group("api")
+	managementType(g, db)
+	age(g, db)
+}
 
-	group.GET("/managementTypes", managementHandler.GetManagementTypes)
-	group.POST("/managementTypes", managementHandler.CreateManagementType)
-	group.GET("/managementTypes/:id", managementHandler.GetManagementType)
-	group.PUT("/managementTypes/:id", managementHandler.UpdateManagementType)
-	group.DELETE("/managementTypes/:id", managementHandler.DeleteManagementType)
+func managementType(g *echo.Group, db *mongo.Database) {
+	repo := repository.NewManagementTypeRepository(db)
+	service := services.NewManagementTypeService(repo)
+	managementTypeHandler := handler.NewManagementTypeHandler(service)
+
+	g.GET("/managementTypes", managementTypeHandler.GetManagementTypes)
+	g.POST("/managementTypes", managementTypeHandler.CreateManagementType)
+	g.GET("/managementTypes/:id", managementTypeHandler.GetManagementType)
+	g.PUT("/managementTypes/:id", managementTypeHandler.UpdateManagementType)
+	g.DELETE("/managementTypes/:id", managementTypeHandler.DeleteManagementType)
+}
+
+func age(g *echo.Group, db *mongo.Database) {
+	repo := repository.NewAgeRepository(db)
+	service := services.NewAgeService(repo)
+	ageHandler := handler.NewAgeHandler(service)
+
+	g.GET("/ages", ageHandler.GetAges)
+	g.POST("/ages", ageHandler.CreateAge)
+	g.GET("/ages/:id", ageHandler.GetAge)
+	g.PUT("/ages/:id", ageHandler.UpdateAge)
+	g.DELETE("/ages/:id", ageHandler.DeleteAge)
 }

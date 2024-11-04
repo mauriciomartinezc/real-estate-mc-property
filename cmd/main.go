@@ -8,6 +8,7 @@ import (
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
+	"github.com/mauriciomartinezc/real-estate-mc-property/seeds"
 	"github.com/mauriciomartinezc/real-estate-mc-property/utils"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"log"
@@ -35,6 +36,8 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("error connecting to MongoDB: %v", err)
 	}
+
+	seeds.Run(db)
 
 	e := echo.New()
 	e.Use(middleware.LanguageHandler())

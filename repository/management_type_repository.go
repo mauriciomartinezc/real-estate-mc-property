@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type ManagementTypeRepository struct {
@@ -19,22 +20,23 @@ func NewManagementTypeRepository(db *mongo.Database) *ManagementTypeRepository {
 }
 
 func (r *ManagementTypeRepository) GetAll() (domain.ManagementTypes, error) {
-	cursor, err := r.Collection.Find(context.Background(), bson.M{})
+	findOptions := options.Find()
+	findOptions.SetSort(bson.D{{"name", 1}})
+
+	cursor, err := r.Collection.Find(context.Background(), bson.M{}, findOptions)
+
 	if err != nil {
 		return nil, err
 	}
 
-	defer func(
-		cursor *mongo.Cursor,
-		ctx context.Context,
-	) {
+	defer func(cursor *mongo.Cursor, ctx context.Context) {
 		err = cursor.Close(ctx)
 		if err != nil {
-			return
+
 		}
 	}(cursor, context.Background())
 
-	var managementTypes domain.ManagementTypes
+	var managementTypes []domain.ManagementType
 	if err = cursor.All(context.Background(), &managementTypes); err != nil {
 		return nil, err
 	}
