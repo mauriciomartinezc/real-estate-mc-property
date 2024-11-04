@@ -24,7 +24,15 @@ func (r *ManagementTypeRepository) GetAll() (domain.ManagementTypes, error) {
 		return nil, err
 	}
 
-	defer cursor.Close(context.Background())
+	defer func(
+		cursor *mongo.Cursor,
+		ctx context.Context,
+	) {
+		err = cursor.Close(ctx)
+		if err != nil {
+			return
+		}
+	}(cursor, context.Background())
 
 	var managementTypes domain.ManagementTypes
 	if err = cursor.All(context.Background(), &managementTypes); err != nil {
