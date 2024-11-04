@@ -26,12 +26,12 @@ type Property struct {
 	StateEstateID   string               `bson:"state_estate_id" json:"state_estate_id"`
 	AgeID           primitive.ObjectID   `bson:"age_id,omitempty" json:"age_id,omitempty"`
 	PropertyTypeID  primitive.ObjectID   `bson:"property_type_id,omitempty" json:"property_type_id,omitempty"`
-	ManagementTypes []primitive.ObjectID `bson:"management_types,omitempty" json:"management_types",omitempty`
-	FeatureIDs      []primitive.ObjectID `bson:"feature_ids,omitempty" json:"feature_ids",omitempty`
-	OwnerIDs        []primitive.ObjectID `bson:"owner_ids,omitempty" json:"owner_ids",omitempty`
-	TenantIDs       []primitive.ObjectID `bson:"tenant_ids,omitempty" json:"tenant_ids",omitempty`
-	Documents       Documents            `bson:"documents,omitempty" json:"documents",omitempty`
-	Photos          Photos               `bson:"photos,omitempty" json:"photos",omitempty`
+	ManagementTypes []primitive.ObjectID `bson:"management_types,omitempty" json:"management_types,omitempty"`
+	FeatureIDs      []primitive.ObjectID `bson:"feature_ids,omitempty" json:"feature_ids,omitempty"`
+	OwnerIDs        []primitive.ObjectID `bson:"owner_ids,omitempty" json:"owner_ids,omitempty"`
+	TenantIDs       []primitive.ObjectID `bson:"tenant_ids,omitempty" json:"tenant_ids,omitempty"`
+	Documents       Documents            `bson:"documents,omitempty" json:"documents,omitempty"`
+	Photos          Photos               `bson:"photos,omitempty" json:"photos,omitempty"`
 	CreatedAt       int64                `bson:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt       int64                `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
