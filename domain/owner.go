@@ -3,11 +3,9 @@ package domain
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Owner struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	FirstName string             `bson:"first_name" json:"first_name"`
-	LastName  string             `bson:"last_name" json:"last_name"`
-	Email     string             `bson:"email,omitempty" json:"email"`
-	Phone     string             `bson:"phone,omitempty" json:"phone"`
+	ID         primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	ClientID   primitive.ObjectID `bson:"client_id" json:"client_id"`
+	PropertyID primitive.ObjectID `bson:"property_id" json:"property_id"`
 }
 
 type Owners = []Owner
