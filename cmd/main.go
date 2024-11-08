@@ -38,15 +38,16 @@ func run() error {
 		return fmt.Errorf("error connecting to MongoDB: %v", err)
 	}
 
+	cacheClient, err := getCacheClient()
+	if err != nil {
+		return fmt.Errorf("error initializing cache client")
+	}
+
 	seeds.Run(db)
 
 	e := echo.New()
 	e.Use(middleware.LanguageHandler())
 	handler.InitValidate()
-	cacheClient, err := getCacheClient()
-	if err != nil {
-		return fmt.Errorf("error initializing cache client")
-	}
 	routes.SetupRoutes(e, db, cacheClient)
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
