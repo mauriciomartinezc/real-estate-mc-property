@@ -38,10 +38,7 @@ func run() error {
 		return fmt.Errorf("error connecting to MongoDB: %v", err)
 	}
 
-	cacheClient, err := getCacheClient()
-	if err != nil {
-		return fmt.Errorf("error initializing cache client")
-	}
+	cacheClient := getCacheClient()
 
 	seeds.Run(db)
 
@@ -55,7 +52,7 @@ func run() error {
 	return e.Start(":" + os.Getenv("SERVER_PORT"))
 }
 
-func getCacheClient() (cache.Cache, error) {
+func getCacheClient() cache.Cache {
 	var cacheClient cache.Cache
 
 	if os.Getenv("CACHE_TYPE") == "redis" {
@@ -66,13 +63,9 @@ func getCacheClient() (cache.Cache, error) {
 		)
 	}
 
-	if os.Getenv("CACHE_TYPE") == "memory" {
+	if cacheClient == nil || os.Getenv("CACHE_TYPE") == "memory" {
 		cacheClient = cache.NewInMemoryCache()
 	}
 
-	if cacheClient == nil {
-		return cacheClient, fmt.Errorf("")
-	}
-
-	return cacheClient, nil
+	return cacheClient
 }
