@@ -6,14 +6,6 @@ import (
 	"strings"
 )
 
-type Config struct {
-	ServerPort string
-	MongoURI   string
-	MongoUser  string
-	MongoPass  string
-	Database   string
-}
-
 func ValidateEnvironments() error {
 	requiredEnvs := []string{
 		"SERVER_PORT",
@@ -25,6 +17,7 @@ func ValidateEnvironments() error {
 		"MONGO_USERNAME",
 		"MONGO_PASSWORD",
 		"MONGO_DATABASE",
+		"CACHE_TYPE",
 	}
 
 	for _, env := range requiredEnvs {

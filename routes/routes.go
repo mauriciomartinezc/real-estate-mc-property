@@ -2,23 +2,25 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
 	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
 	"github.com/mauriciomartinezc/real-estate-mc-property/services"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func SetupRoutes(e *echo.Echo, db *mongo.Database) {
+func SetupRoutes(e *echo.Echo, db *mongo.Database, cache cache.Cache) {
 	g := e.Group("api")
-	managementType(g, db)
-	age(g, db)
-	featureType(g, db)
-	feature(g, db)
-	propertyType(g, db)
+	managementType(g, db, cache)
+	age(g, db, cache)
+	featureType(g, db, cache)
+	feature(g, db, cache)
+	propertyType(g, db, cache)
+	property(g, db, cache)
 }
 
-func managementType(g *echo.Group, db *mongo.Database) {
-	repo := repository.NewManagementTypeRepository(db)
+func managementType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewManagementTypeRepository(db, cache)
 	service := services.NewManagementTypeService(repo)
 	managementTypeHandler := handler.NewManagementTypeHandler(service)
 
@@ -29,8 +31,8 @@ func managementType(g *echo.Group, db *mongo.Database) {
 	//g.DELETE("/managementTypes/:id", managementTypeHandler.DeleteManagementType)
 }
 
-func age(g *echo.Group, db *mongo.Database) {
-	repo := repository.NewAgeRepository(db)
+func age(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewAgeRepository(db, cache)
 	service := services.NewAgeService(repo)
 	ageHandler := handler.NewAgeHandler(service)
 
@@ -41,8 +43,8 @@ func age(g *echo.Group, db *mongo.Database) {
 	//g.DELETE("/ages/:id", ageHandler.DeleteAge)
 }
 
-func featureType(g *echo.Group, db *mongo.Database) {
-	repo := repository.NewFeatureTypeRepository(db)
+func featureType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewFeatureTypeRepository(db, cache)
 	service := services.NewFeatureTypeService(repo)
 	featureTypeHandler := handler.NewFeatureTypeHandler(service)
 
@@ -53,8 +55,8 @@ func featureType(g *echo.Group, db *mongo.Database) {
 	//g.DELETE("/featureTypes/:id", featureTypeHandler.DeleteFeatureType)
 }
 
-func feature(g *echo.Group, db *mongo.Database) {
-	repo := repository.NewFeatureRepository(db)
+func feature(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewFeatureRepository(db, cache)
 	service := services.NewFeatureService(repo)
 	featureHandler := handler.NewFeatureHandler(service)
 
@@ -66,8 +68,8 @@ func feature(g *echo.Group, db *mongo.Database) {
 	//g.DELETE("/features/:id", featureHandler.DeleteFeature)
 }
 
-func propertyType(g *echo.Group, db *mongo.Database) {
-	repo := repository.NewPropertyTypeRepository(db)
+func propertyType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewPropertyTypeRepository(db, cache)
 	service := services.NewPropertyTypeService(repo)
 	propertyTypeHandler := handler.NewPropertyTypeHandler(service)
 
@@ -76,4 +78,17 @@ func propertyType(g *echo.Group, db *mongo.Database) {
 	//g.GET("/propertyTypes/:id", propertyTypeHandler.GetPropertyType)
 	//g.PUT("/propertyTypes/:id", propertyTypeHandler.UpdatePropertyType)
 	//g.DELETE("/propertyTypes/:id", propertyTypeHandler.DeletePropertyType)
+}
+
+func property(g *echo.Group, db *mongo.Database, cache cache.Cache) {
+	repo := repository.NewPropertyRepository(db, cache)
+	service := services.NewPropertyService(repo)
+	propertyHandler := handler.NewPropertyHandler(service)
+
+	g.GET("/properties", propertyHandler.GetAllPropertiesPaginated)
+	g.GET("/properties/company/:companyID", propertyHandler.GetPropertiesByCompanyID)
+	g.GET("/properties/:id", propertyHandler.GetDetailProperty)
+	g.POST("/properties", propertyHandler.CreateProperty)
+	g.PUT("/properties/:id", propertyHandler.UpdateProperty)
+	g.PATCH("/properties/:id", propertyHandler.ChangeStatusProperty)
 }

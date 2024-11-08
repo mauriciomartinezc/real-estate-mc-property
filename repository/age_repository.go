@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -11,11 +12,13 @@ import (
 
 type AgeRepository struct {
 	Collection *mongo.Collection
+	Cache      cache.Cache
 }
 
-func NewAgeRepository(db *mongo.Database) *AgeRepository {
+func NewAgeRepository(db *mongo.Database, cache cache.Cache) *AgeRepository {
 	return &AgeRepository{
 		Collection: db.Collection("ages"),
+		Cache:      cache,
 	}
 }
 

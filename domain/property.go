@@ -3,8 +3,6 @@ package domain
 import (
 	"github.com/mauriciomartinezc/real-estate-mc-common/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"time"
 )
 
 type Property struct {
@@ -22,6 +20,8 @@ type Property struct {
 	Bathrooms          int                  `bson:"bathrooms" json:"bathrooms" validate:"required"`
 	Garages            int                  `bson:"garages" json:"garages" validate:"required"`
 	Slug               string               `bson:"slug" json:"slug"`
+	Active             bool                 `bson:"active" json:"active"`
+	CompanyID          string               `bson:"company_id" json:"company_id" validate:"required"`
 	CityID             string               `bson:"city_id" json:"city_id" validate:"required"`
 	NeighborhoodID     string               `bson:"neighborhood_id" json:"neighborhood_id" validate:"required"`
 	AgeID              primitive.ObjectID   `bson:"age_id" json:"age_id" validate:"required"`
@@ -60,12 +60,15 @@ type SimpleProperty struct {
 	Bathrooms       int                 `bson:"bathrooms" json:"bathrooms"`
 	Garages         int                 `bson:"garages" json:"garages"`
 	Slug            string              `bson:"slug" json:"slug"`
+	Active          bool                `bson:"active" json:"active"`
 	Age             Age                 `bson:"age" json:"age"`
 	PropertyType    PropertyType        `bson:"property_type" json:"property_type"`
 	ManagementTypes ManagementTypes     `bson:"management_types" json:"management_types"`
 	City            domain.City         `bson:"city" json:"city"`
 	Neighborhood    domain.Neighborhood `bson:"neighborhood" json:"neighborhood"`
 	Photo           Photo               `bson:"photo" json:"photo"`
+	CreatedAt       int64               `bson:"created_at,omitempty" json:"created_at,omitempty"`
+	UpdatedAt       int64               `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 }
 
 type DetailProperty struct {
@@ -94,15 +97,3 @@ type DetailProperty struct {
 
 type Properties []Property
 type SimpleProperties []SimpleProperty
-
-func (m *Property) BeforeCreate(ctx *mongo.SessionContext) (err error) {
-	m.ID = primitive.NewObjectID()
-	m.CreatedAt = time.Now().Unix()
-	m.UpdatedAt = time.Now().Unix()
-	return
-}
-
-func (m *Property) BeforeUpdate(ctx *mongo.SessionContext) (err error) {
-	m.UpdatedAt = time.Now().Unix()
-	return
-}

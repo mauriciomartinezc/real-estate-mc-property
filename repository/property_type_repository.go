@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -11,11 +12,13 @@ import (
 
 type PropertyTypeRepository struct {
 	Collection *mongo.Collection
+	Cache      cache.Cache
 }
 
-func NewPropertyTypeRepository(db *mongo.Database) *PropertyTypeRepository {
+func NewPropertyTypeRepository(db *mongo.Database, cache cache.Cache) *PropertyTypeRepository {
 	return &PropertyTypeRepository{
 		Collection: db.Collection("property_types"),
+		Cache:      cache,
 	}
 }
 
