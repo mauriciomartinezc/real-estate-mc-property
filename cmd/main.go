@@ -5,7 +5,6 @@ import (
 	"github.com/labstack/echo/v4"
 	configCommon "github.com/mauriciomartinezc/real-estate-mc-common/config"
 	"github.com/mauriciomartinezc/real-estate-mc-common/middleware"
-	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
@@ -38,7 +37,7 @@ func run() error {
 		return fmt.Errorf("error connecting to MongoDB: %v", err)
 	}
 
-	cacheClient := getCacheClient()
+	cacheClient := config.NewCacheClient()
 
 	seeds.Run(db)
 
@@ -50,22 +49,4 @@ func run() error {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	return e.Start(":" + os.Getenv("SERVER_PORT"))
-}
-
-func getCacheClient() cache.Cache {
-	var cacheClient cache.Cache
-
-	if os.Getenv("CACHE_TYPE") == "redis" {
-		cacheClient = cache.NewRedisCache(
-			os.Getenv("CACHE_HOST")+":"+os.Getenv("CACHE_PORT"),
-			os.Getenv("CACHE_PASSWORD"),
-			0,
-		)
-	}
-
-	if cacheClient == nil || os.Getenv("CACHE_TYPE") == "memory" {
-		cacheClient = cache.NewInMemoryCache()
-	}
-
-	return cacheClient
 }
