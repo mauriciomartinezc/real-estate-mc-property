@@ -1,7 +1,9 @@
 package cache
 
 import (
+	"errors"
 	"fmt"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -39,8 +41,15 @@ func (c *InMemoryCache) Get(key string, dest interface{}) error {
 	if !found || time.Now().Unix() > item.expiration {
 		return fmt.Errorf("key not found")
 	}
-	// Asumimos que el valor es un tipo simple (JSON no es necesario aquí)
-	dest = item.value
+
+	// Verificar si `dest` es un puntero
+	v := reflect.ValueOf(dest)
+	if v.Kind() != reflect.Ptr || v.IsNil() {
+		return errors.New("destination must be a non-nil pointer")
+	}
+
+	// Copiar el valor almacenado al valor apuntado por `dest`
+	v.Elem().Set(reflect.ValueOf(item.value))
 	return nil
 }
 
