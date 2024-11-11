@@ -2,15 +2,15 @@ package services
 
 import (
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
-	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AgeService struct {
-	Repo *repository.AgeRepository
+	Repo *repositories.AgeRepository
 }
 
-func NewAgeService(repo *repository.AgeRepository) *AgeService {
+func NewAgeService(repo *repositories.AgeRepository) *AgeService {
 	return &AgeService{Repo: repo}
 }
 

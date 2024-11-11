@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"github.com/labstack/echo/v4"
@@ -10,71 +10,71 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type AgeHandler struct {
-	Service *services.AgeService
+type PropertyTypeHandler struct {
+	Service *services.PropertyTypeService
 }
 
-func NewAgeHandler(service *services.AgeService) *AgeHandler {
-	return &AgeHandler{Service: service}
+func NewPropertyTypeHandler(service *services.PropertyTypeService) *PropertyTypeHandler {
+	return &PropertyTypeHandler{Service: service}
 }
 
-func (h *AgeHandler) GetAges(c echo.Context) error {
-	ages, err := h.Service.GetAll()
+func (h *PropertyTypeHandler) GetPropertyTypes(c echo.Context) error {
+	propertyTypes, err := h.Service.GetAll()
 	if err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	if ages == nil {
-		ages = []domain.Age{}
+	if propertyTypes == nil {
+		propertyTypes = []domain.PropertyType{}
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, ages)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyTypes)
 }
 
-func (h *AgeHandler) CreateAge(c echo.Context) error {
-	var age domain.Age
-	if err := c.Bind(&age); err != nil {
+func (h *PropertyTypeHandler) CreatePropertyType(c echo.Context) error {
+	var propertyType domain.PropertyType
+	if err := c.Bind(&propertyType); err != nil {
 		return utils.SendBadRequest(c, localesCommon.ErrorPayload)
 	}
-	if err := validate.Struct(age); err != nil {
+	if err := validate.Struct(propertyType); err != nil {
 		return utils.SendErrorValidations(c, localesCommon.ErrorPayload, err)
 	}
-	if err := h.Service.Create(&age); err != nil {
+	if err := h.Service.Create(&propertyType); err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendCreated(c, localesCommon.SuccessCreated, age)
+	return utils.SendCreated(c, localesCommon.SuccessCreated, propertyType)
 }
 
-func (h *AgeHandler) GetAge(c echo.Context) error {
+func (h *PropertyTypeHandler) GetPropertyType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)
 	}
-	age, err := h.Service.GetByID(id)
+	propertyType, err := h.Service.GetByID(id)
 	if err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, age)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyType)
 }
 
-func (h *AgeHandler) UpdateAge(c echo.Context) error {
+func (h *PropertyTypeHandler) UpdatePropertyType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)
 	}
-	var age domain.Age
-	if err = c.Bind(&age); err != nil {
+	var propertyType domain.PropertyType
+	if err = c.Bind(&propertyType); err != nil {
 		return utils.SendBadRequest(c, localesCommon.ErrorPayload)
 	}
-	if err = validate.Struct(age); err != nil {
+	if err = validate.Struct(propertyType); err != nil {
 		return utils.SendErrorValidations(c, localesCommon.ErrorPayload, err)
 	}
-	age.ID = id
-	if err = h.Service.Update(&age); err != nil {
+	propertyType.ID = id
+	if err = h.Service.Update(&propertyType); err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, age)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyType)
 }
 
-func (h *AgeHandler) DeleteAge(c echo.Context) error {
+func (h *PropertyTypeHandler) DeletePropertyType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)

@@ -2,15 +2,15 @@ package services
 
 import (
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
-	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type PropertyTypeService struct {
-	Repo *repository.PropertyTypeRepository
+	Repo *repositories.PropertyTypeRepository
 }
 
-func NewPropertyTypeService(repo *repository.PropertyTypeRepository) *PropertyTypeService {
+func NewPropertyTypeService(repo *repositories.PropertyTypeRepository) *PropertyTypeService {
 	return &PropertyTypeService{Repo: repo}
 }
 

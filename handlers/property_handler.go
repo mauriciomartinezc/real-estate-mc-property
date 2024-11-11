@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"github.com/labstack/echo/v4"
@@ -120,6 +120,18 @@ func (h *PropertyHandler) ChangeStatusProperty(c echo.Context) error {
 	}
 	property.ID = id
 	if err = h.Service.ChangeStatus(property); err != nil {
+		return utils.SendInternalServerError(c, err.Error())
+	}
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, property)
+}
+
+func (h *PropertyHandler) GetBySlug(c echo.Context) error {
+	slug := c.Param("slug")
+	if slug == "" {
+		return utils.SendBadRequest(c, locales.InvalidSlug)
+	}
+	property, err := h.Service.GetBySlug(slug)
+	if err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
 	return utils.SendSuccess(c, localesCommon.SuccessResponse, property)

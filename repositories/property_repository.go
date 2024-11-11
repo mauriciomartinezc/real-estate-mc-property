@@ -1,17 +1,17 @@
-package repository
+package repositories
 
 import (
 	"context"
 	"fmt"
-	"log"
-	"time"
-
 	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
+	"github.com/mauriciomartinezc/real-estate-mc-property/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"time"
 )
 
 type PropertyRepository struct {
@@ -102,13 +102,14 @@ func (r *PropertyRepository) GetPropertiesByCompanyID(companyID string, page, li
 // Create inserts a new property and updates the cache for relevant entries
 func (r *PropertyRepository) Create(property *domain.SimpleProperty) error {
 	property.ID = primitive.NewObjectID()
+	property.Slug = utils.GenerateSlug(property)
 	property.CreatedAt = time.Now().Unix()
 	property.UpdatedAt = time.Now().Unix()
 
 	_, err := r.PropertyCollection.InsertOne(context.Background(), property)
 	if err == nil {
-		// Update cache with the new property entry
-		r.updateCacheAfterChange(fmt.Sprintf("property:%s", property.ID.Hex()), property)
+		// Update cache with the updated property status
+		r.updateCacheAfterChange(property.ID)
 	}
 	return err
 }
@@ -116,15 +117,15 @@ func (r *PropertyRepository) Create(property *domain.SimpleProperty) error {
 // Update modifies an existing property and updates the cache for relevant entries
 func (r *PropertyRepository) Update(property *domain.SimpleProperty) error {
 	property.UpdatedAt = time.Now().Unix()
-
+	property.Slug = utils.GenerateSlug(property)
 	_, err := r.PropertyCollection.UpdateOne(
 		context.Background(),
 		bson.M{"_id": property.ID},
 		bson.M{"$set": property},
 	)
 	if err == nil {
-		// Update cache with the updated property entry
-		r.updateCacheAfterChange(fmt.Sprintf("property:%s", property.ID.Hex()), property)
+		// Update cache with the updated property status
+		r.updateCacheAfterChange(property.ID)
 	}
 	return err
 }
@@ -141,7 +142,7 @@ func (r *PropertyRepository) ChangeStatus(property *domain.SimpleProperty) error
 	)
 	if err == nil {
 		// Update cache with the updated property status
-		r.updateCacheAfterChange(fmt.Sprintf("property:%s", property.ID.Hex()), property)
+		r.updateCacheAfterChange(property.ID)
 	}
 	return err
 }
@@ -188,8 +189,37 @@ func (r *PropertyRepository) GetByID(id primitive.ObjectID) (*domain.SimplePrope
 	return &property, nil
 }
 
-// updateCacheAfterChange updates the cache for specific keys after create, update, or status change
-func (r *PropertyRepository) updateCacheAfterChange(cacheKey string, property *domain.SimpleProperty) {
+func (r *PropertyRepository) GetBySlug(slug string) (*domain.DetailProperty, error) {
+	cacheKey := fmt.Sprintf("property_slug:%s", slug)
+
+	var property domain.DetailProperty
+	if err := r.Cache.Get(cacheKey, &property); err == nil {
+		return &property, nil
+	}
+
+	err := r.PropertyCollection.FindOne(context.Background(), bson.M{"slug": slug}).Decode(&property)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := r.Cache.Set(cacheKey, property, 5*time.Minute); err != nil {
+		log.Printf("Error caching property detail by Slug: %v", err)
+	}
+
+	return &property, nil
+}
+
+// updateCacheAfterChange
+func (r *PropertyRepository) updateCacheAfterChange(id primitive.ObjectID) {
+	property, _ := r.GetDetailByID(id)
+
+	cacheKey := fmt.Sprintf("property:%s", property.ID.Hex())
+	if err := r.Cache.Set(cacheKey, property, 5*time.Minute); err != nil {
+		log.Printf("Error updating cache for key %s: %v", cacheKey, err)
+	}
+
+	cacheKey = fmt.Sprintf("property_slug:%s", property.Slug)
+
 	if err := r.Cache.Set(cacheKey, property, 5*time.Minute); err != nil {
 		log.Printf("Error updating cache for key %s: %v", cacheKey, err)
 	}

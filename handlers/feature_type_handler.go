@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"github.com/labstack/echo/v4"
@@ -10,71 +10,71 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type PropertyTypeHandler struct {
-	Service *services.PropertyTypeService
+type FeatureTypeHandler struct {
+	Service *services.FeatureTypeService
 }
 
-func NewPropertyTypeHandler(service *services.PropertyTypeService) *PropertyTypeHandler {
-	return &PropertyTypeHandler{Service: service}
+func NewFeatureTypeHandler(service *services.FeatureTypeService) *FeatureTypeHandler {
+	return &FeatureTypeHandler{Service: service}
 }
 
-func (h *PropertyTypeHandler) GetPropertyTypes(c echo.Context) error {
-	propertyTypes, err := h.Service.GetAll()
+func (h *FeatureTypeHandler) GetFeatureTypes(c echo.Context) error {
+	featureTypes, err := h.Service.GetAll()
 	if err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	if propertyTypes == nil {
-		propertyTypes = []domain.PropertyType{}
+	if featureTypes == nil {
+		featureTypes = []domain.FeatureType{}
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyTypes)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, featureTypes)
 }
 
-func (h *PropertyTypeHandler) CreatePropertyType(c echo.Context) error {
-	var propertyType domain.PropertyType
-	if err := c.Bind(&propertyType); err != nil {
+func (h *FeatureTypeHandler) CreateFeatureType(c echo.Context) error {
+	var featureType domain.FeatureType
+	if err := c.Bind(&featureType); err != nil {
 		return utils.SendBadRequest(c, localesCommon.ErrorPayload)
 	}
-	if err := validate.Struct(propertyType); err != nil {
+	if err := validate.Struct(featureType); err != nil {
 		return utils.SendErrorValidations(c, localesCommon.ErrorPayload, err)
 	}
-	if err := h.Service.Create(&propertyType); err != nil {
+	if err := h.Service.Create(&featureType); err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendCreated(c, localesCommon.SuccessCreated, propertyType)
+	return utils.SendCreated(c, localesCommon.SuccessCreated, featureType)
 }
 
-func (h *PropertyTypeHandler) GetPropertyType(c echo.Context) error {
+func (h *FeatureTypeHandler) GetFeatureType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)
 	}
-	propertyType, err := h.Service.GetByID(id)
+	featureType, err := h.Service.GetByID(id)
 	if err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyType)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, featureType)
 }
 
-func (h *PropertyTypeHandler) UpdatePropertyType(c echo.Context) error {
+func (h *FeatureTypeHandler) UpdateFeatureType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)
 	}
-	var propertyType domain.PropertyType
-	if err = c.Bind(&propertyType); err != nil {
+	var featureType domain.FeatureType
+	if err = c.Bind(&featureType); err != nil {
 		return utils.SendBadRequest(c, localesCommon.ErrorPayload)
 	}
-	if err = validate.Struct(propertyType); err != nil {
+	if err = validate.Struct(featureType); err != nil {
 		return utils.SendErrorValidations(c, localesCommon.ErrorPayload, err)
 	}
-	propertyType.ID = id
-	if err = h.Service.Update(&propertyType); err != nil {
+	featureType.ID = id
+	if err = h.Service.Update(&featureType); err != nil {
 		return utils.SendInternalServerError(c, err.Error())
 	}
-	return utils.SendSuccess(c, localesCommon.SuccessResponse, propertyType)
+	return utils.SendSuccess(c, localesCommon.SuccessResponse, featureType)
 }
 
-func (h *PropertyTypeHandler) DeletePropertyType(c echo.Context) error {
+func (h *FeatureTypeHandler) DeleteFeatureType(c echo.Context) error {
 	id, err := primitive.ObjectIDFromHex(c.Param("id"))
 	if err != nil {
 		return utils.SendBadRequest(c, locales.InvalidId)

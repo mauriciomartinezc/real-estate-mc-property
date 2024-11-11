@@ -2,15 +2,15 @@ package services
 
 import (
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
-	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type PropertyService struct {
-	Repo *repository.PropertyRepository
+	Repo *repositories.PropertyRepository
 }
 
-func NewPropertyService(repo *repository.PropertyRepository) *PropertyService {
+func NewPropertyService(repo *repositories.PropertyRepository) *PropertyService {
 	return &PropertyService{Repo: repo}
 }
 
@@ -40,4 +40,8 @@ func (s *PropertyService) GetDetailByID(id primitive.ObjectID) (*domain.DetailPr
 
 func (s *PropertyService) ChangeStatus(property *domain.SimpleProperty) error {
 	return s.Repo.ChangeStatus(property)
+}
+
+func (s *PropertyService) GetBySlug(slug string) (*domain.DetailProperty, error) {
+	return s.Repo.GetBySlug(slug)
 }

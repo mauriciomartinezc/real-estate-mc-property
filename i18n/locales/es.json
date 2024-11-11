@@ -34,5 +34,8 @@
   },
   "FeatureTypeID": {
     "other": "Identificador del tipo de la característica"
+  },
+  "InvalidSlug": {
+    "other": "Slug invalido"
   }
 }

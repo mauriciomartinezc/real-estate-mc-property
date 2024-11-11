@@ -1,5 +1,6 @@
 package locales
 
 const (
-	InvalidId = "InvalidId"
+	InvalidId   = "InvalidId"
+	InvalidSlug = "InvalidSlug"
 )

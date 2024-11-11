@@ -2,15 +2,15 @@ package services
 
 import (
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
-	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type FeatureService struct {
-	Repo *repository.FeatureRepository
+	Repo *repositories.FeatureRepository
 }
 
-func NewFeatureService(repo *repository.FeatureRepository) *FeatureService {
+func NewFeatureService(repo *repositories.FeatureRepository) *FeatureService {
 	return &FeatureService{Repo: repo}
 }
 

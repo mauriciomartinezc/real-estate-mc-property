@@ -34,5 +34,50 @@
   },
   "FeatureTypeID": {
     "other": "Id's feature type"
+  },
+  "InvalidSlug": {
+    "other": "Invalid slug"
+  },
+  "Price": {
+    "other": "Precio"
+  },
+  "PriceAdmin": {
+    "other": "Precio administración"
+  },
+  "AdminIncluded": {
+    "other": "Administración incluida"
+  },
+  "Address": {
+    "other": "Dirección"
+  },
+  "FullAddress": {
+    "other": "Dirección completa"
+  },
+  "Longitude": {
+    "other": "Longitud"
+  },
+  "Latitude": {
+    "other": "Latitud"
+  },
+  "Area": {
+    "other": "Área"
+  },
+  "BuiltArea": {
+    "other": "Área construida"
+  },
+  "Rooms": {
+    "other": "Habitaciones"
+  },
+  "Bathrooms": {
+    "other": "Baños"
+  },
+  "Garages": {
+    "other": "Garajes"
+  },
+  "CompanyID": {
+    "other": "Identificador de la empresa"
+  },
+  "CityID": {
+    "other": "Identificador de la ciudad"
   }
 }

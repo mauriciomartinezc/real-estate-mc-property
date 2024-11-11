@@ -6,7 +6,7 @@ import (
 	configCommon "github.com/mauriciomartinezc/real-estate-mc-common/config"
 	"github.com/mauriciomartinezc/real-estate-mc-common/middleware"
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
-	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
+	"github.com/mauriciomartinezc/real-estate-mc-property/handlers"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
 	"github.com/mauriciomartinezc/real-estate-mc-property/seeds"
 	"github.com/mauriciomartinezc/real-estate-mc-property/utils"
@@ -43,7 +43,7 @@ func run() error {
 
 	e := echo.New()
 	e.Use(middleware.LanguageHandler())
-	handler.InitValidate()
+	handlers.InitValidate()
 	routes.SetupRoutes(e, db, cacheClient)
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)

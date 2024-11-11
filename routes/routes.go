@@ -3,8 +3,8 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
-	"github.com/mauriciomartinezc/real-estate-mc-property/handler"
-	"github.com/mauriciomartinezc/real-estate-mc-property/repository"
+	"github.com/mauriciomartinezc/real-estate-mc-property/handlers"
+	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"github.com/mauriciomartinezc/real-estate-mc-property/services"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -20,9 +20,9 @@ func SetupRoutes(e *echo.Echo, db *mongo.Database, cache cache.Cache) {
 }
 
 func managementType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewManagementTypeRepository(db, cache)
+	repo := repositories.NewManagementTypeRepository(db, cache)
 	service := services.NewManagementTypeService(repo)
-	managementTypeHandler := handler.NewManagementTypeHandler(service)
+	managementTypeHandler := handlers.NewManagementTypeHandler(service)
 
 	g.GET("/managementTypes", managementTypeHandler.GetManagementTypes)
 	//g.POST("/managementTypes", managementTypeHandler.CreateManagementType)
@@ -32,9 +32,9 @@ func managementType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 }
 
 func age(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewAgeRepository(db, cache)
+	repo := repositories.NewAgeRepository(db, cache)
 	service := services.NewAgeService(repo)
-	ageHandler := handler.NewAgeHandler(service)
+	ageHandler := handlers.NewAgeHandler(service)
 
 	g.GET("/ages", ageHandler.GetAges)
 	//g.POST("/ages", ageHandler.CreateAge)
@@ -44,9 +44,9 @@ func age(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 }
 
 func featureType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewFeatureTypeRepository(db, cache)
+	repo := repositories.NewFeatureTypeRepository(db, cache)
 	service := services.NewFeatureTypeService(repo)
-	featureTypeHandler := handler.NewFeatureTypeHandler(service)
+	featureTypeHandler := handlers.NewFeatureTypeHandler(service)
 
 	g.GET("/featureTypes", featureTypeHandler.GetFeatureTypes)
 	//g.POST("/featureTypes", featureTypeHandler.CreateFeatureType)
@@ -56,9 +56,9 @@ func featureType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 }
 
 func feature(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewFeatureRepository(db, cache)
+	repo := repositories.NewFeatureRepository(db, cache)
 	service := services.NewFeatureService(repo)
-	featureHandler := handler.NewFeatureHandler(service)
+	featureHandler := handlers.NewFeatureHandler(service)
 
 	g.GET("/features", featureHandler.GetFeatures)
 	g.GET("/features/grouped", featureHandler.GetFeaturesGroupedByType)
@@ -69,9 +69,9 @@ func feature(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 }
 
 func propertyType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewPropertyTypeRepository(db, cache)
+	repo := repositories.NewPropertyTypeRepository(db, cache)
 	service := services.NewPropertyTypeService(repo)
-	propertyTypeHandler := handler.NewPropertyTypeHandler(service)
+	propertyTypeHandler := handlers.NewPropertyTypeHandler(service)
 
 	g.GET("/propertyTypes", propertyTypeHandler.GetPropertyTypes)
 	//g.POST("/propertyTypes", propertyTypeHandler.CreatePropertyType)
@@ -81,9 +81,9 @@ func propertyType(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 }
 
 func property(g *echo.Group, db *mongo.Database, cache cache.Cache) {
-	repo := repository.NewPropertyRepository(db, cache)
+	repo := repositories.NewPropertyRepository(db, cache)
 	service := services.NewPropertyService(repo)
-	propertyHandler := handler.NewPropertyHandler(service)
+	propertyHandler := handlers.NewPropertyHandler(service)
 
 	g.GET("/properties", propertyHandler.GetAllPropertiesPaginated)
 	g.GET("/properties/company/:companyID", propertyHandler.GetPropertiesByCompanyID)
@@ -91,4 +91,5 @@ func property(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 	g.POST("/properties", propertyHandler.CreateProperty)
 	g.PUT("/properties/:id", propertyHandler.UpdateProperty)
 	g.PATCH("/properties/:id", propertyHandler.ChangeStatusProperty)
+	g.GET("/properties/:slug", propertyHandler.GetBySlug)
 }
