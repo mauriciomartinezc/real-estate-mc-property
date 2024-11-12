@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	configCommon "github.com/mauriciomartinezc/real-estate-mc-common/config"
-	"github.com/mauriciomartinezc/real-estate-mc-common/middleware"
+	middlewaresCommon "github.com/mauriciomartinezc/real-estate-mc-common/middlewares"
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handlers"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
@@ -37,12 +37,12 @@ func run() error {
 		return fmt.Errorf("error connecting to MongoDB: %v", err)
 	}
 
-	cacheClient := config.NewCacheClient()
+	cacheClient := configCommon.NewCacheClient()
 
 	seeds.Run(db)
 
 	e := echo.New()
-	e.Use(middleware.LanguageHandler())
+	e.Use(middlewaresCommon.LanguageHandler())
 	handlers.InitValidate()
 	routes.SetupRoutes(e, db, cacheClient)
 

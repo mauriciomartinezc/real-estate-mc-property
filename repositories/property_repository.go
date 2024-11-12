@@ -3,7 +3,7 @@ package repositories
 import (
 	"context"
 	"fmt"
-	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
+	"github.com/mauriciomartinezc/real-estate-mc-common/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
 	"github.com/mauriciomartinezc/real-estate-mc-property/utils"
 	"go.mongodb.org/mongo-driver/bson"

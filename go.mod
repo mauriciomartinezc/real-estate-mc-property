@@ -6,7 +6,7 @@ require (
 	github.com/go-playground/validator/v10 v10.22.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/labstack/echo/v4 v4.12.0
-	github.com/mauriciomartinezc/real-estate-mc-common v0.0.9
+	github.com/mauriciomartinezc/real-estate-mc-common v0.0.10
 	github.com/swaggo/echo-swagger v1.4.1
 	go.mongodb.org/mongo-driver v1.17.1
 )

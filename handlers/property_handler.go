@@ -36,9 +36,9 @@ func (h *PropertyHandler) GetAllPropertiesPaginated(c echo.Context) error {
 }
 
 func (h *PropertyHandler) GetPropertiesByCompanyID(c echo.Context) error {
+	companyID := c.Get("companyId").(string)
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	limit, _ := strconv.Atoi(c.QueryParam("limit"))
-	companyID := c.QueryParam("companyId")
 	properties, err := h.Service.GetPropertiesByCompanyID(companyID, page, limit)
 
 	if err != nil {

@@ -2,7 +2,8 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
+	"github.com/mauriciomartinezc/real-estate-mc-common/cache"
+	"github.com/mauriciomartinezc/real-estate-mc-common/middlewares"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handlers"
 	"github.com/mauriciomartinezc/real-estate-mc-property/repositories"
 	"github.com/mauriciomartinezc/real-estate-mc-property/services"
@@ -85,8 +86,8 @@ func property(g *echo.Group, db *mongo.Database, cache cache.Cache) {
 	service := services.NewPropertyService(repo)
 	propertyHandler := handlers.NewPropertyHandler(service)
 
+	g.GET("/properties/company", propertyHandler.GetPropertiesByCompanyID, middlewares.CompanyHandler())
 	g.GET("/properties", propertyHandler.GetAllPropertiesPaginated)
-	g.GET("/properties/company/:companyID", propertyHandler.GetPropertiesByCompanyID)
 	g.GET("/properties/:id", propertyHandler.GetDetailProperty)
 	g.POST("/properties", propertyHandler.CreateProperty)
 	g.PUT("/properties/:id", propertyHandler.UpdateProperty)

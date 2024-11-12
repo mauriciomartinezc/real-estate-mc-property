@@ -75,6 +75,8 @@ github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWE
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/mauriciomartinezc/real-estate-mc-common v0.0.9 h1:dsgV9FqOf5LXln3SNgZhNqICkaArL3n5ktUS0RxZZiQ=
 github.com/mauriciomartinezc/real-estate-mc-common v0.0.9/go.mod h1:FPaSGjauzmAILsxTLATWh2GW3nE6m93nao2c234IsHg=
+github.com/mauriciomartinezc/real-estate-mc-common v0.0.10 h1:YYjtnuNDEOxs+lgz1XYbo8cUNs7lD8Kf+tzw+PLvG1w=
+github.com/mauriciomartinezc/real-estate-mc-common v0.0.10/go.mod h1:e+wt+rcX7dX32GbFi9/ag0WuSJ924mlHGFd1kwcbllo=
 github.com/montanaflynn/stats v0.7.1 h1:etflOAAHORrCC44V+aR6Ftzort912ZU+YLiSTuV8eaE=
 github.com/montanaflynn/stats v0.7.1/go.mod h1:etXPPgVO6n31NxCd9KQUMvCM+ve0ruNzt6R8Bnaayow=
 github.com/nicksnyder/go-i18n/v2 v2.4.0 h1:3IcvPOAvnCKwNm0TB0dLDTuawWEj+ax/RERNC+diLMM=

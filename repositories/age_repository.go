@@ -3,15 +3,14 @@ package repositories
 import (
 	"context"
 	"fmt"
-	"log"
-	"time"
-
-	"github.com/mauriciomartinezc/real-estate-mc-property/cache"
+	"github.com/mauriciomartinezc/real-estate-mc-common/cache"
 	"github.com/mauriciomartinezc/real-estate-mc-property/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"time"
 )
 
 type AgeRepository struct {
