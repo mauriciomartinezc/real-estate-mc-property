@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	configCommon "github.com/mauriciomartinezc/real-estate-mc-common/config"
+	"github.com/mauriciomartinezc/real-estate-mc-common/discovery/consul"
 	middlewaresCommon "github.com/mauriciomartinezc/real-estate-mc-common/middlewares"
+	utilsCommon "github.com/mauriciomartinezc/real-estate-mc-common/utils"
 	"github.com/mauriciomartinezc/real-estate-mc-property/config"
 	"github.com/mauriciomartinezc/real-estate-mc-property/handlers"
 	"github.com/mauriciomartinezc/real-estate-mc-property/routes"
@@ -39,9 +41,14 @@ func run() error {
 
 	cacheClient := configCommon.NewCacheClient()
 
+	// Consul
+	discoveryClient := consul.NewConsultApi()
+	discoveryClient.RegisterService("mc-property")
+
 	seeds.Run(db)
 
 	e := echo.New()
+	utilsCommon.RouteHealth(e)
 	e.Use(middlewaresCommon.LanguageHandler())
 	handlers.InitValidate()
 	routes.SetupRoutes(e, db, cacheClient)
